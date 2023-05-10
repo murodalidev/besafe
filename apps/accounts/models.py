@@ -32,15 +32,15 @@ class Account(AbstractBaseUser, PermissionsMixin):
         verbose_name = _('Account')
         verbose_name_plural = _('Accounts')
 
-    phone = models.CharField(max_length=9, verbose_name=_('Phone number'), unique=True, db_index=True)
+    phone = models.CharField(max_length=12, verbose_name=_('Phone number'), unique=True, db_index=True)
     first_name = models.CharField(max_length=50, verbose_name=_('First name'), null=True)
     last_name = models.CharField(max_length=50, verbose_name=_('Last name'), null=True)
     birth_date = models.DateField(null=True, verbose_name=_('Birth data'))
-    avatar = models.ImageField(upload_to=avatar_path, null=True)
+    avatar = models.ImageField(upload_to=avatar_path, null=True, blank=True)
     is_superuser = models.BooleanField(default=False, verbose_name=_('Super user'))
     is_staff = models.BooleanField(default=False, verbose_name=_('Staff user'))
     is_active = models.BooleanField(default=True, verbose_name=_('Active user'))
-    is_verified = models.BooleanField(default=True, verbose_name=_('Verified user'))
+    is_verified = models.BooleanField(default=False, verbose_name=_('Verified user'))
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('Modified date'))
     created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Created date'))
 

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
+
 INSTALLED_APPS = [
     'modeltranslation',
     'django.contrib.admin',
@@ -41,14 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # third part apps
+    'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',
-    'drf_yasg',
     # local apps
     "apps.accounts",
 
 ]
-
 AUTH_USER_MODEL = 'accounts.Account'
 
 MIDDLEWARE = [
@@ -189,7 +189,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=180),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=365),
     "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
+    "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
 
     "ALGORITHM": "HS256",
