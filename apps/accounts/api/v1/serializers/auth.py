@@ -1,4 +1,6 @@
 import os
+from abc import ABC
+
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from django.contrib.auth import authenticate
@@ -10,14 +12,6 @@ from apps.accounts.models import Account
 
 class GetSMSCodeSerializer(serializers.Serializer):
     phone = serializers.CharField(min_length=12)
-
-    def validate(self, attrs):
-        phone = attrs.get('phone')
-        attrs['registered'] = False
-        user = authenticate(username=phone, password=os.environ.get('ACCOUNT_DEFAULT_PASSWORD'))
-        if user:
-            attrs['registered'] = True
-        return attrs
 
 
 class VerifySMSCodeSerializer(serializers.Serializer):
