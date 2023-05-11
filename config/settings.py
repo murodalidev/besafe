@@ -79,6 +79,8 @@ TEMPLATES = [
     },
 ]
 
+SECURE_SSL_REDIRECT = False
+
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
