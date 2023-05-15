@@ -48,7 +48,6 @@ urlpatterns = [
     # local apps
     path('auth/', include('apps.accounts.urls.auth.urls')),
     path('accounts/', include('apps.accounts.urls.accounts.urls')),
-
 ]
 
 if settings.DEBUG:
