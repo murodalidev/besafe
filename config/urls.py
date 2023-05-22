@@ -49,6 +49,7 @@ urlpatterns = [
     path('auth/', include('apps.accounts.urls.auth.urls')),
     path('accounts/', include('apps.accounts.urls.accounts.urls')),
     path('blog/', include('apps.blog.urls')),
+    path('contact/', include('apps.contact.urls')),
 ]
 
 if settings.DEBUG:
