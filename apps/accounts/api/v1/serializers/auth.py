@@ -19,7 +19,6 @@ class VerifySMSCodeSerializer(serializers.Serializer):
     verification_code = serializers.CharField(min_length=4, max_length=4, write_only=True)
 
 
-
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account

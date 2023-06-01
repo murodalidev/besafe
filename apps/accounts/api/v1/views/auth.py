@@ -50,7 +50,7 @@ class VerifySMSCodeView(generics.GenericAPIView):
             }
             data = {
                 "success": True,
-                "detail": _("New account created"),
+                "created": True,
                 "tokens": tokens
             }
             return Response(data, status=status.HTTP_201_CREATED)
@@ -68,7 +68,6 @@ class VerifySMSCodeView(generics.GenericAPIView):
                 "tokens": tokens
             }
             return Response(data, status=status.HTTP_200_OK)
-
 
 
 class RegisterView(generics.GenericAPIView):
