@@ -17,7 +17,6 @@ class BlogView(generics.ListAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
 
-
     def get_queryset(self):
         qs = super().get_queryset()
         category = self.request.GET.get('category')

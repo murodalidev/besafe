@@ -1,5 +1,5 @@
-from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import generics, status, views
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.accounts.api.v1.serializers import AccountSerializer
@@ -29,3 +29,16 @@ class AccountRUDView(generics.RetrieveUpdateDestroyAPIView):
         instance.is_active = False
         instance.is_verified = False
         instance.save()
+
+
+class MyProfileView(views.APIView):
+    # http://127.0.0.1:8000/auth/api/v1/account/profile/
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        serializer = self.serializer_class(user)
+        return Response(serializer.data)
+
