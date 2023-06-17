@@ -53,5 +53,15 @@ class Account(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.phone
 
+    @property
+    def full_name(self):
+        name_list = []
+        if self.last_name:
+            name_list.append(self.last_name)
+        if self.first_name:
+            name_list.append(self.first_name)
+        if name_list:
+            return " ".join(name_list)
+        return "-"
 
 

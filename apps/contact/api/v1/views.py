@@ -17,7 +17,7 @@ class RelationshipView(generics.ListAPIView):
 
 
 class ContactView(generics.ListCreateAPIView):
-    # http://127.0.0.1:8000/contact/list/
+    # http://127.0.0.1:8000/contact/list-create/
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     permission_classes = [permissions.IsAuthenticated]

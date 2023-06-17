@@ -50,6 +50,7 @@ urlpatterns = [
     path('accounts/', include('apps.accounts.urls.accounts.urls')),
     path('blog/', include('apps.blog.urls')),
     path('contact/', include('apps.contact.urls')),
+    path('chat/', include('apps.chat.urls')),
 ]
 
 if settings.DEBUG:
