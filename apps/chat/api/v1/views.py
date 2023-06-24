@@ -1,49 +1,71 @@
-# from django.shortcuts import get_object_or_404
-# from drf_yasg import openapi
-# from drf_yasg.utils import swagger_auto_schema
-# from rest_framework import generics, permissions, status, views
-# from rest_framework.response import Response
-#
-# from apps.chat.models import Room, Message, Media
-# from .serializers import RoomSerializer, MessageSerializer
-#
-#
-# class MessageView(views.APIView):
-#     # http://127.0.0.1:8000/chat/v1/
-#
-#     def get_serializer_context(self):
-#         context = super().get_serializer_context()
-#         # Add custom context data
-#         print(context)
-#         # context['extra_info'] = 'Additional information'
-#         return context
-#
-#     def post(self, request, *args, **kwargs):
-#         sender_id = request.data['sender']['id']
-#         receiver_id = request.data['receiver']['id']
-#         obj, created = Room.objects.get_or_create(sender_id=sender_id, receiver_id=receiver_id)
-#         if created:
-#             print(created)
-#         print(obj)
-#         return Response('ok')
-#
-#     @swagger_auto_schema(
-#         manual_parameters=[
-#             openapi.Parameter('sender_id', openapi.IN_QUERY, description='Sender ID', type=openapi.TYPE_INTEGER),
-#             openapi.Parameter('receiver_id', openapi.IN_QUERY, description='Receiver ID', type=openapi.TYPE_INTEGER),
-#         ]
-#     )
-#     def get(self, request, *args, **kwargs):
-#         sender_id = request.GET.get('sender_id')
-#         receiver_id = request.GET.get('receiver_id')
-#         context = {
-#             'request': request
-#         }
-#         room, created = Room.objects.get_or_create(sender_id=sender_id, receiver_id=receiver_id, is_deleted=False)
-#         messages = Message.objects.filter(room_id=room.id)
-#         serializer = MessageSerializer(messages, many=True, context=context)
-#         return Response(serializer.data)
-#
-#
-#
-#
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import generics, permissions, views
+from rest_framework.response import Response
+
+from apps.chat.models import Chat, Message, Media
+from .serializers import ChatSerializer, MessageSerializer
+
+
+class ChatListCreateView(generics.ListCreateAPIView):
+    # http://127.0.0.1:8000/chat/v1/list-create/
+    queryset = Chat.objects.filter(is_deleted=False)
+    serializer_class = ChatSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        user = self.request.user
+        return qs.filter(chat_members__member_id=user.id)
+
+
+class MessageView(views.APIView):
+    # http://127.0.0.1:8000/chat/v1/messages/
+    permission_classes = [permissions.IsAuthenticated]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('chat_id', openapi.IN_QUERY, description='Chat ID', type=openapi.TYPE_INTEGER),
+        ],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'message': openapi.Schema(type=openapi.TYPE_STRING),
+            }
+        )
+    )
+    def post(self, request, *args, **kwargs):
+        chat_id = request.GET.get('chat_id', None)
+        message = request.data['message']
+        user_id = request.user.id
+        context = {
+            "request": request
+        }
+        if chat_id:
+            obj = Message.objects.create(chat_id=chat_id, sender_id=user_id, message=message)
+            serializer = MessageSerializer(obj, context=context)
+            return Response(serializer.data)
+        return Response('ok')
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('chat_id', openapi.IN_QUERY, description='Chat ID', type=openapi.TYPE_INTEGER),
+        ]
+    )
+    def get(self, request, *args, **kwargs):
+        chat_id = request.GET.get('chat_id', None)
+        context = {
+            'request': request
+        }
+        if chat_id:
+            chat = Chat.objects.get(id=chat_id)
+            if (request.user.id,) not in chat.chat_members.values_list('member_id'):
+                return Response({"success": False, "message": "You have no any permissions for this chat"})
+            messages = Message.objects.filter(chat_id=chat_id)
+            serializer = MessageSerializer(messages, many=True, context=context)
+            return Response(serializer.data)
+        return Response([])
+
+
+
+

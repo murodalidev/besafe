@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import Account
+from .models import Account, Position, Consultant
 from .forms import AccountCreationForm, AccountChangeForm
 
 
@@ -24,6 +24,19 @@ class AccountAdmin(BaseUserAdmin):
         (None, {'classes': ('wide',), 'fields': ('phone', 'password1', 'password2'), }),
     )
     search_fields = ('phone', 'first_name', 'last_name')
+
+
+@admin.register(Position)
+class PositionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name', )
+
+
+@admin.register(Consultant)
+class ConsultantAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'position', 'is_verified')
+    search_fields = ('user__username', 'user__first_name', 'user__last_name')
+    list_filter = ('is_verified', 'position')
 
 
 admin.site.register(Account, AccountAdmin)

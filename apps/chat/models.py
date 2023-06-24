@@ -11,7 +11,6 @@ class Chat(models.Model):
         (0, 'private'),
         (1, 'group'),
     )
-    members = models.ManyToManyField(Account, related_name='chats')
     name = models.CharField(max_length=255, blank=True, null=True)
     type = models.IntegerField(choices=TYPE, default=0)
     is_deleted = models.BooleanField(default=False)
@@ -27,7 +26,7 @@ class Chat(models.Model):
 
 class ChatMember(models.Model):
     chat = models.ForeignKey(Chat, related_name='chat_members', on_delete=models.CASCADE)
-    member = models.ForeignKey(Account, on_delete=models.CASCADE)
+    member = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='members')
 
     def __str__(self):
         return str(self.id)

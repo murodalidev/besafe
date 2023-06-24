@@ -7,4 +7,7 @@ from .auth import (
 
 from .accounts import (
     AccountSerializer,
+    PositionSerializer,
+    ConsultantListSerializer,
+    ConsultantCreateSerializer,
 )

@@ -65,3 +65,20 @@ class Account(AbstractBaseUser, PermissionsMixin):
         return "-"
 
 
+class Position(models.Model):
+    name = models.CharField(max_length=221, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Consultant(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True, related_name='consultants')
+    bio = models.TextField()
+    is_verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.full_name
+
+
