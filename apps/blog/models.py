@@ -29,3 +29,5 @@ class BlogImage(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.SET_NULL, null=True, related_name='images')
     image = models.ImageField(upload_to='blogs/')
     is_main = models.BooleanField(default=False)
+
+
