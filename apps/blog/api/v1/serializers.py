@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.blog.models import Category, Blog, BlogImage
+from apps.accounts.api.v1.serializers import AccountSerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -18,8 +19,9 @@ class MiniBlogImageSerializer(serializers.ModelSerializer):
 class BlogSerializer(serializers.ModelSerializer):
     images = MiniBlogImageSerializer(many=True, required=False)
     category = CategorySerializer(required=False)
+    author = AccountSerializer(read_only=True)
 
     class Meta:
         model = Blog
-        fields = ['id', 'category', 'title', 'images', 'description', 'modified_date', 'created_date']
+        fields = ['id', 'author', 'type', 'category', 'title', 'images', 'description', 'modified_date', 'created_date']
 

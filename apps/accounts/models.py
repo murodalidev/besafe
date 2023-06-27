@@ -53,5 +53,32 @@ class Account(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.phone
 
+    @property
+    def full_name(self):
+        name_list = []
+        if self.last_name:
+            name_list.append(self.last_name)
+        if self.first_name:
+            name_list.append(self.first_name)
+        if name_list:
+            return " ".join(name_list)
+        return "-"
+
+
+class Position(models.Model):
+    name = models.CharField(max_length=221, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Consultant(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True, related_name='consultants')
+    bio = models.TextField()
+    is_verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.full_name
 
 

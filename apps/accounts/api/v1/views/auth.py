@@ -46,12 +46,13 @@ class VerifySMSCodeView(generics.GenericAPIView):
             refresh = RefreshToken.for_user(new_user)
             tokens = {
                 'refresh': str(refresh),
-                'access': str(refresh.access_token)
+                'access': str(refresh.access_token),
             }
             data = {
                 "success": True,
                 "created": True,
-                "tokens": tokens
+                'user_id': new_user.id,
+                "tokens": tokens,
             }
             return Response(data, status=status.HTTP_201_CREATED)
         except Account.MultipleObjectsReturned:
@@ -65,6 +66,8 @@ class VerifySMSCodeView(generics.GenericAPIView):
             }
             data = {
                 "success": True,
+                "created": False,
+                'user_id': user.id,
                 "tokens": tokens
             }
             return Response(data, status=status.HTTP_200_OK)

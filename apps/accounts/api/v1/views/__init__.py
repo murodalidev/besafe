@@ -7,4 +7,7 @@ from .auth import (
 from .accounts import (
     AccountListView,
     AccountRUDView,
+    PositionListView,
+    ConsultantListView,
+    ConsultantCreateView,
 )
