@@ -106,7 +106,7 @@ CORS_ALLOW_HEADERS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = ['https://12c2-217-30-163-211.ngrok-free.app']
+# CSRF_TRUSTED_ORIGINS = ['https://b416-45-9-230-31.ngrok-free.app ']
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
