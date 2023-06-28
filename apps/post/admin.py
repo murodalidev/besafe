@@ -1,10 +1,17 @@
 from django.contrib import admin
 
-from apps.post.models import Post, Comment
+from apps.post.models import Post, PostImage, Comment
+
+
+
+class PostImageInline(admin.TabularInline):
+    model = PostImage
+    extra = 0
 
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
+    inlines = (PostImageInline, )
     list_display = ('id', 'author', 'modified_date', 'created_date')
     date_hierarchy = 'created_date'
     list_filter = ('created_date',)

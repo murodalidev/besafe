@@ -14,7 +14,7 @@ class Post(models.Model):
 
 
 class PostImage(models.Model):
-    blog = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True, related_name='images')
+    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True, related_name='images')
     image = models.ImageField(upload_to='posts/')
     is_main = models.BooleanField(default=False)
 

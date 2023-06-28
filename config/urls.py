@@ -51,6 +51,7 @@ urlpatterns = [
     path('blog/', include('apps.blog.urls')),
     path('contact/', include('apps.contact.urls')),
     path('chat/', include('apps.chat.urls')),
+    path('post/', include('apps.post.urls')),
 ]
 
 if settings.DEBUG:
