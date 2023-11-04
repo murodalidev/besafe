@@ -48,6 +48,7 @@ urlpatterns = [
     # local apps
     path('auth/', include('apps.accounts.urls.auth.urls')),
     path('accounts/', include('apps.accounts.urls.accounts.urls')),
+    path('alerts/', include('apps.alerts.urls')),
     path('blog/', include('apps.blog.urls')),
     path('contact/', include('apps.contact.urls')),
     path('chat/', include('apps.chat.urls')),

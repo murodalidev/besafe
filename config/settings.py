@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'ckeditor',
     # local apps
     "apps.accounts",
+    "apps.alerts",
     "apps.blog",
     "apps.contact",
     "apps.chat",
