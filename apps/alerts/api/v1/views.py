@@ -34,8 +34,6 @@ class SendAlertTelegram(APIView):
         message = f"Name: {user.full_name}\nPhone: {user.phone}\nLocation: {location_link}"
         url = f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&text={message}"
         respond = requests.get(url)
-        print(respond.ok)
-        print(respond.text)
         if respond.ok:
             return Response({"success": True, "detail": "Send alert to telegram group"})
         return Response({"success": False, "detail": str(respond.text)})
