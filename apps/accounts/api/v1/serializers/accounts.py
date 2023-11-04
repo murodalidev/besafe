@@ -31,6 +31,8 @@ class PositionSerializer(serializers.ModelSerializer):
 
 class ConsultantListSerializer(serializers.ModelSerializer):
     position = PositionSerializer(required=False)
+    user = AccountSerializer(read_only=True)
+
     class Meta:
         model = Consultant
         fields = ('id', 'user', 'position', 'bio')

@@ -37,3 +37,35 @@ class SendAlertTelegram(APIView):
         if respond.ok:
             return Response({"success": True, "detail": "Send alert to telegram group"})
         return Response({"success": False, "detail": str(respond.text)})
+
+
+class SendAnonymousTelegram(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type="object",
+            properties={
+                "message": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+            required=["message"],
+            example={
+                "message": "",
+            }
+        ),
+        responses={
+            200: openapi.Response(description='Success response'),
+            400: openapi.Response(description='Bad request'),
+        }
+    )
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        msg = data.get('message', None)
+        token = "6810106730:AAHF9i80bHqW0qVEik8tnBYMH6j7e81Vi7c"
+        chat_id = "-1002109325310"
+        message = f"Message: {msg}"
+        url = f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&text={message}"
+        respond = requests.get(url)
+        if respond.ok:
+            return Response({"success": True, "detail": "Send alert to telegram group"})
+        return Response({"success": False, "detail": str(respond.text)})
